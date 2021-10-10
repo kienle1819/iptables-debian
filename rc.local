@@ -1,0 +1,31 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit zero" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# uncomment the next 2 lines on KVM servers only, NOT OpenVZ
+/sbin/ipset create SIPFLOOD hash:ip hashsize 4096
+/sbin/ipset restore -! < /etc/SIPFLOOD.zone
+wait
+/usr/local/sbin/iptables-restart
+wait
+sleep 10
+systemctl restart rtpproxy
+wait
+sleep 10
+systemctl restart opensips
+wait
+sleep 10
+systemctl restart exim4
+wait
+sleep 5
+exit 0
+
