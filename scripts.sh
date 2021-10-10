@@ -7,6 +7,7 @@ apt-get install -y iptables-persistent
 ln -s /etc/init.d/netfilter-persistent /etc/init.d/iptables
 cd /etc/iptables
 cp $PWD/rules.v4 rules.v4
+cp -p $PWD/rc.local /etc/rc.local
 systemctl stop netfilter-persistent
 systemctl start netfilter-persistent
 systemctl status netfilter-persistent
